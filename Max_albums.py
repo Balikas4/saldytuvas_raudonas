@@ -27,11 +27,20 @@ def remove_track(album_dictionary, queue_number):
     return album_dictionary
 
 def print_general_info(album_dictionary):
-    pass
+    print(f"General info:\nArtist: {album_dictionary['Atlikėjas']}\nAlbum: {album_dictionary['Albumas']}\nTracks count: {list(album_dictionary['Takeliai']).count}")
+    total_duration = 0
+    for  track_info in list(album_dictionary['Takeliai']):
+        total_duration += track_info['Trukmė']
+    print(f"\n Total duration:{total_duration}")
+
+def print_all_tracks(album_dictionary):   
+    list(album_dictionary['Takeliai']).sort 
+    for  track_info in list(album_dictionary['Takeliai']):
+        print(f"Queue number: {track_info['Eilė']} Track title: {track_info['Trackas']} Track duration: {track_info['Trukmė']}")
 
 
 def main():    
-    albums={"Atlikėjas":"Atlikejo pavadinimas", "Albumas":"Albumo pavadinimas", "Takeliai":[{"Eilė":1, "Trackas":"tracko pavadinimas", "Trukmė": "05:00"}]}
+    albums={"Atlikėjas":"Atlikejo pavadinimas", "Albumas":"Albumo pavadinimas", "Takeliai":[{"Eilė":1, "Trackas":"tracko pavadinimas", "Trukmė":5}]}
 
     while True:
         print('''
@@ -53,16 +62,16 @@ def main():
         elif choice.startswith("2"):
             track_number = list(albums["Takeliai"]).count+1
             track_title = input("Enter track title")
-            track_duration = input("Enter track duration")
+            track_duration = int(input("Enter track duration"))
             albums = add_track(albums, track_number, track_title, track_duration)            
         elif choice.startswith("3"):
             index = int(input("Enter track number/index"))
-            albums = remove_track(albums, index)
-            pass
+            albums = remove_track(albums, index)            
         elif choice.startswith("4"):
-            pass
+            print_general_info(albums)            
         elif choice.startswith("5"):
-            pass
+            print_all_tracks(albums)
         else:
             print("Bad choice, try again")
 
+main()
