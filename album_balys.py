@@ -1,10 +1,19 @@
 def main():
     album = {
-        "Artist":"Snoop Dogg",
-        "Album name":"Doggystyle",
+        "Artist": "Snoop Dogg",
+        "Album name": "Doggystyle",
         "Year": 1993,
-        "Tracks": []
-        }
+        "Tracks": [
+            ("Bathtub", 111),
+            ("G Funk Intro", 145),
+            ("Gin And Juice", 211),
+            ("W Balls", 37),
+            ("Tha Shiznit", 244),
+            ("Untitled", 37),
+            ("Lodi Dodi", 264),
+            ("Murder Was The Case (Death After Visualizing Eternity)", 218)
+        ]
+    }
     while True:
         print('''
               ----XD---- Main Album Menu ----XD----
@@ -13,11 +22,12 @@ def main():
                 tracklist = Prints Tracklist info.
                 edit album = Album edit menu.
                 edit tracklist = Tracklist edit menu.
+                duration = Prints total duration of this album.
                 XD = secret
               ''')
         choice = input("Your choice: ")
         if choice.startswith("exit"):
-            break                                       #Turbut galima naudoti ir quit()
+            break
         elif choice.startswith("edit album"):
             edit_album(album)
         elif choice.startswith("edit tracklist"):
@@ -26,6 +36,8 @@ def main():
             print_album(album)
         elif choice.startswith("tracklist"):
             print_tracklist(album)
+        elif choice.startswith("duration"):
+            total_duration(album)
         elif choice.startswith("XD"):
             XD()
         else:
@@ -39,8 +51,9 @@ def print_album(album):
 
 def print_tracklist(album):
     print("---TRACKLIST INFO---")
-    for index, track in enumerate(album["Tracks"], start=1):
-        print(f"{index}. {track['track name']} - {track['track duration']} seconds")
+    for index, track_info in enumerate(album["Tracks"], start=1):
+        track_name, track_duration = track_info
+        print(f"{index}. {track_name} - {format_duration(track_duration)}")
 
 
 def edit_album(album):
@@ -86,6 +99,7 @@ def edit_tracklist(album):
             2. Edit track duration.
             3. Add new track.
             4. Album edit menu.
+            5. Remove track.
             exit = Exits program
             tracklist = Prints Tracklist info.
             album = Prints Album info.
@@ -101,24 +115,65 @@ def edit_tracklist(album):
             print_album(album)           
         elif choice.startswith("1"):
             print_tracklist(album)
-            chose_track = int(input("Chose track number to edit"))
+            chose_track = int(input("Chose track number to edit: "))
             new_track_name = input("Input new track name: ")
-            album["Tracks"][chose_track - 1]["track name"] = new_track_name
+            album["Tracks"][chose_track-1] = (new_track_name, album["Tracks"][chose_track-1][1])
         elif choice.startswith("2"):
             print_tracklist(album)
-            chose_track = int(input("Chose track number to edit"))
-            new_track_duration_s = int(input("Input new duration seconds: "))
-            album["Tracks"][chose_track-1]["track duration"] = new_track_duration_s        
+            chose_track = int(input("Chose track number to edit: "))
+            new_track_duration = input("Input new duration (MM:SS): ")
+            album["Tracks"][chose_track-1] = (album["Tracks"][chose_track-1][0], parse_duration(new_track_duration))
         elif choice.startswith("3"):
             print_tracklist(album)
-            new_track_name = input("Input new track name: ")    #Upgrade into 1 input
-            new_track_duration_s = int(input("Input new duration seconds: "))
-            new_track = {"track name": new_track_name, "track duration": new_track_duration_s}
-            album["Tracks"].append(new_track)
+            track_info = input("Input new track name, duration (MM:SS): ") 
+            album["Tracks"].append(parse_track_info(track_info))
         elif choice.startswith("4"):
             edit_album(album)
+        elif choice.startswith("5"):
+            print_tracklist(album)
+            del_choice = int(input("Choose track to delete: "))
+            if 1 <= del_choice <= len(album["Tracks"]):
+                del album["Tracks"][del_choice - 1]
+                break
+            else:
+                print("Invalid track number. Please choose a valid track next time.")
+                break
         else:
             print("Wrong choice")
+
+def format_duration(seconds):
+    seconds_left = seconds % 60
+    minutes = seconds // 60
+    return f"{minutes:02}:{seconds_left:02}"
+
+def parse_duration(track_duration):
+    if isinstance(track_duration, str):
+        parts = track_duration.split(":")
+        minutes = int(parts[0])
+        seconds = int(parts[1])
+        return minutes * 60 + seconds
+    elif isinstance(track_duration, int):
+        return track_duration
+    else:
+        raise ValueError("Invalid track duration format")
+
+
+def parse_track_info(track_info):
+    parts = track_info.split(", ")
+    track_name = parts[0]
+    duration_parts = parts[1].split(":")
+    minutes = int(duration_parts[0])
+    seconds = int(duration_parts[1])
+    track_duration = minutes * 60 + seconds
+    return track_name, track_duration
+
+
+def total_duration(album):
+    album_duration = 0
+    for track_info in album["Tracks"]:
+        album_duration += track_info[1]
+    print("Total album duration in seconds: ", album_duration)
+    print("Totel album duration in (MM:SS) format:", format_duration(album_duration))
 
 
 def XD():
@@ -146,7 +201,7 @@ def XD():
      \________________________________\     ()   \o o/   ()
       *********************************     ()           ()
           """)
-    input("Say anything if you have anything left to say")
+    input("Say anything if you have anything left to say: ")
 
 
 if __name__ == "__main__":
