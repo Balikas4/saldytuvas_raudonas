@@ -7,7 +7,7 @@ Reikalavimai:
 * Albumo žodyne sukurkite takelių (dainų) sąrašą, kur kiekvienas takelis yra žodynas, talpinantis eilės numerį, pavadinimą ir trukmę sekundėmis. 
 ** Bonus: trukmės įvedimas "minutės:sekundės" formatu (žmogui suprantamu).
 * Programa turi leisti vartotojui užpildyti/pakeisti albumo informaciją (pavadinimą, atlikėją, ...)
-* Programa turi leisti vartotojui sukurti/ištrinti takelį, užpildant takelio informaciją (pavadinimą, trukmę)
+* Programa turi leisti vartotoj0ui sukurti/ištrinti takelį, užpildant takelio informaciją (pavadinimą, trukmę)
 * Galimybė peržiūrėti albumą, išspausdinant takelių kiekį ir bendrą jų trukmę šalia kitų atributų.
 * Peržiūrėti albumo dainas. Bonus: išrūšiuotas pagal eilės numerį. Takelio trukmė turi būti pateikta žmogui suprantama laiko išraiška.
 
@@ -15,26 +15,28 @@ Pastabos:
 * Stenkitės nekartoti kodo - funkcionalumui, kuriam kodas kartotųsi, parašykite atskiras funkcijas ir jas panaudokite kelis kartus kur reikia.
 """
 def add_track(album_dictionary, queue_number, title, duration):
-    track_dictionary = {}
-    track_dictionary["Eilė"] = queue_number
-    track_dictionary["Trackas"] = title
-    track_dictionary["Trukmė"] = duration
-    list(album_dictionary["Takeliai"]).append(track_dictionary)
+   # track_dictionary = {}
+   # track_dictionary["Eilė"] = queue_number
+   # track_dictionary["Trackas"] = title
+   # track_dictionary["Trukmė"] = duration
+    print(queue_number, title, duration)
+    album_dictionary["Takeliai"].append({"Eilė":queue_number, "Trackas":title, "Trukmė":duration})
+    print("The length of tracklist inside method:", list(album_dictionary["Takeliai"]).__len__())
     return album_dictionary
 
 def remove_track(album_dictionary, queue_number):
-    list(album_dictionary["Takeliai"]).remove(queue_number)
+    album_dictionary["Takeliai"].pop(queue_number)
+    print("The length of tracklist inside method:", list(album_dictionary["Takeliai"]).__len__())
     return album_dictionary
 
 def print_general_info(album_dictionary):
-    print(f"General info:\nArtist: {album_dictionary['Atlikėjas']}\nAlbum: {album_dictionary['Albumas']}\nTracks count: {list(album_dictionary['Takeliai']).count}")
+    print(f"General info:\nArtist: {album_dictionary['Atlikėjas']}\nAlbum: {album_dictionary['Albumas']}\nTracks count: {list(album_dictionary['Takeliai']).__len__()}")
     total_duration = 0
-    for  track_info in list(album_dictionary['Takeliai']):
+    for  track_info in album_dictionary['Takeliai']:
         total_duration += track_info['Trukmė']
     print(f"\n Total duration:{total_duration}")
 
-def print_all_tracks(album_dictionary):   
-    list(album_dictionary['Takeliai']).sort 
+def print_all_tracks(album_dictionary):     
     for  track_info in list(album_dictionary['Takeliai']):
         print(f"Queue number: {track_info['Eilė']} Track title: {track_info['Trackas']} Track duration: {track_info['Trukmė']}")
 
@@ -60,13 +62,15 @@ def main():
             albums["Albumas"]=input("Enter album title")
             pass
         elif choice.startswith("2"):
-            track_number = list(albums["Takeliai"]).count+1
+            track_number = list(albums["Takeliai"]).__len__()+1
             track_title = input("Enter track title")
             track_duration = int(input("Enter track duration"))
-            albums = add_track(albums, track_number, track_title, track_duration)            
+            albums = add_track(albums, track_number, track_title, track_duration)  
+            print("The length of tracklist:", list(albums["Takeliai"]).__len__())          
         elif choice.startswith("3"):
-            index = int(input("Enter track number/index"))
-            albums = remove_track(albums, index)            
+            index = int(input("Enter track number/index"))-1
+            albums = remove_track(albums, index)    
+            print("The length of tracklist:", list(albums["Takeliai"]).__len__())            
         elif choice.startswith("4"):
             print_general_info(albums)            
         elif choice.startswith("5"):
