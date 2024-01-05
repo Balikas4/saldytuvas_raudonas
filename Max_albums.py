@@ -15,18 +15,12 @@ Pastabos:
 * Stenkitės nekartoti kodo - funkcionalumui, kuriam kodas kartotųsi, parašykite atskiras funkcijas ir jas panaudokite kelis kartus kur reikia.
 """
 def add_track(album_dictionary, queue_number, title, duration):
-   # track_dictionary = {}
-   # track_dictionary["Eilė"] = queue_number
-   # track_dictionary["Trackas"] = title
-   # track_dictionary["Trukmė"] = duration
     print(queue_number, title, duration)
-    album_dictionary["Takeliai"].append({"Eilė":queue_number, "Trackas":title, "Trukmė":duration})
-    print("The length of tracklist inside method:", list(album_dictionary["Takeliai"]).__len__())
+    album_dictionary["Takeliai"].append({"Eilė":queue_number, "Trackas":title, "Trukmė":duration})    
     return album_dictionary
 
 def remove_track(album_dictionary, queue_number):
-    album_dictionary["Takeliai"].pop(queue_number)
-    print("The length of tracklist inside method:", list(album_dictionary["Takeliai"]).__len__())
+    album_dictionary["Takeliai"].pop(queue_number)    
     return album_dictionary
 
 def print_general_info(album_dictionary):
@@ -65,12 +59,10 @@ def main():
             track_number = list(albums["Takeliai"]).__len__()+1
             track_title = input("Enter track title")
             track_duration = int(input("Enter track duration"))
-            albums = add_track(albums, track_number, track_title, track_duration)  
-            print("The length of tracklist:", list(albums["Takeliai"]).__len__())          
+            albums = add_track(albums, track_number, track_title, track_duration)                   
         elif choice.startswith("3"):
             index = int(input("Enter track number/index"))-1
-            albums = remove_track(albums, index)    
-            print("The length of tracklist:", list(albums["Takeliai"]).__len__())            
+            albums = remove_track(albums, index)                        
         elif choice.startswith("4"):
             print_general_info(albums)            
         elif choice.startswith("5"):
