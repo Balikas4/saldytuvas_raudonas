@@ -1,0 +1,68 @@
+""" Komandinio/individualaus darbo užduotis
+===[ Muzikos Albumas ]===
+
+Reikalavimai:
+
+* Žodynas albumas turi turėti atlikėją ir pavadinimą, gali turėti ir kitų atributų
+* Albumo žodyne sukurkite takelių (dainų) sąrašą, kur kiekvienas takelis yra žodynas, talpinantis eilės numerį, pavadinimą ir trukmę sekundėmis. 
+** Bonus: trukmės įvedimas "minutės:sekundės" formatu (žmogui suprantamu).
+* Programa turi leisti vartotojui užpildyti/pakeisti albumo informaciją (pavadinimą, atlikėją, ...)
+* Programa turi leisti vartotojui sukurti/ištrinti takelį, užpildant takelio informaciją (pavadinimą, trukmę)
+* Galimybė peržiūrėti albumą, išspausdinant takelių kiekį ir bendrą jų trukmę šalia kitų atributų.
+* Peržiūrėti albumo dainas. Bonus: išrūšiuotas pagal eilės numerį. Takelio trukmė turi būti pateikta žmogui suprantama laiko išraiška.
+
+Pastabos:
+* Stenkitės nekartoti kodo - funkcionalumui, kuriam kodas kartotųsi, parašykite atskiras funkcijas ir jas panaudokite kelis kartus kur reikia.
+"""
+def add_track(album_dictionary, queue_number, title, duration):
+    track_dictionary = {}
+    track_dictionary["Eilė"] = queue_number
+    track_dictionary["Trackas"] = title
+    track_dictionary["Trukmė"] = duration
+    list(album_dictionary["Takeliai"]).append(track_dictionary)
+    return album_dictionary
+
+def remove_track(album_dictionary, queue_number):
+    list(album_dictionary["Takeliai"]).remove(queue_number)
+    return album_dictionary
+
+def print_general_info(album_dictionary):
+    pass
+
+
+def main():    
+    albums={"Atlikėjas":"Atlikejo pavadinimas", "Albumas":"Albumo pavadinimas", "Takeliai":[{"Eilė":1, "Trackas":"tracko pavadinimas", "Trukmė": "05:00"}]}
+
+    while True:
+        print('''
+              ----Choose what you want to do with your album----
+                0 = Exit.
+                1 = Modify album information.
+                2 = Create track.
+                3 = Remove track.
+                4 = See album general info(amount of tracks, total duration)
+                5 = See all tracks info
+              ''')
+        choice = input("Your choice: ")
+        if choice.startswith("0"):
+            break
+        elif choice.startswith("1"):
+            albums["Atlikėjas"]=input("Enter artist name")
+            albums["Albumas"]=input("Enter album title")
+            pass
+        elif choice.startswith("2"):
+            track_number = list(albums["Takeliai"]).count+1
+            track_title = input("Enter track title")
+            track_duration = input("Enter track duration")
+            albums = add_track(albums, track_number, track_title, track_duration)            
+        elif choice.startswith("3"):
+            index = int(input("Enter track number/index"))
+            albums = remove_track(albums, index)
+            pass
+        elif choice.startswith("4"):
+            pass
+        elif choice.startswith("5"):
+            pass
+        else:
+            print("Bad choice, try again")
+
