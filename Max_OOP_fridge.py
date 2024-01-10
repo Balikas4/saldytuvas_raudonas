@@ -66,8 +66,15 @@ class Fridge:
             print(f'{index}. {product.name} : {product.quantity}')
 
     def check_recipe(self, recipe:Recipe):    
-        pass
-        
+        for ingredient in recipe.ingredients:
+            product_id, _ = Fridge().check_product(ingredient.name)
+            if product_id is None:
+                print(f"{ingredient.name} was not found in the fridge")
+                print("Recipe is not craftable")
+                return False
+        print("Recipe is craftable")
+        return True
+   
 
 
 def main():
