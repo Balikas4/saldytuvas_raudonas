@@ -26,7 +26,7 @@ class Recipe:
 #Balys new function update
     def check_ingredient(self, ingredient_name:str) -> (int, Product):
         for ingredient_id, ingredient in enumerate(self.ingredients):
-            if ingredient_name == ingredient_name:
+            if ingredient_name == ingredient.name:
                 return ingredient_id, ingredient
         return None, None
 
@@ -93,16 +93,22 @@ class Fridge:
         else:
             print(f"Product {name} does not exist in the fridge.")
 
+#Balys missing quantity update
     def check_recipe(self, recipe: Recipe):
-        for ingredient in recipe.ingredients:
-            product_id, _ = Fridge().check_product(ingredient.name)
-            if product_id is None:
-                print(f"{ingredient.name} was not found in the fridge")
-                print("Recipe is not craftable")
-                return False
-        print("Recipe is craftable")
-        return True
- 
+            for ingredient in recipe.ingredients:
+                index, fridge_product = self.check_product(ingredient.name)
+                if fridge_product is None:
+                    print(f"{ingredient.name} was not found in the fridge")
+                    print("Recipe is not craftable")
+                    return False
+                quantity_difference = self.check_product_quantity(fridge_product, ingredient.quantity)
+                if quantity_difference < 0:
+                    print(f"Missing {abs(quantity_difference)} x {fridge_product.name}")
+                    print("Recipe is not craftable")
+                    return False
+            print("Recipe is craftable")
+            return True
+    
 
 def main():
     fridge = Fridge()
@@ -114,7 +120,7 @@ check - Checks fridge for a product
 add - Add a new product
 remove - Remove existing product
 print - Prints the contents
-recipe add- Add products to recipe
+recipe add - Add products to recipe
 recipe remove - Remove products from recipe
 recipe change - Change ingridient quantity of the recipe
 recipe print - Print current recipe
@@ -164,8 +170,8 @@ exit - Exit
         else:
             print("Bad choice, try again")
 
-Fridge().add_product("milk", 1)
-Recipe().add_ingredient(Product("milk", 1))
+Fridge().add_product("milk", 1.1)
+Recipe().add_ingredient(Product("milk", 1.1))
 
 if __name__ == "__main__":
     main()
