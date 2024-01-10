@@ -1,46 +1,46 @@
 albumas = []
 
-def prideti_albuma(atlikejas, pavadinimas):
-    album = {'atlikejas': atlikejas, 'pavadinimas': pavadinimas}
+def prideti_albuma(atlikejas, albumas):
+    album = {'atlikejas': atlikejas, 'albumas': albumas}
     albumas.append(album)
-    print(f'Albumas {pavadinimas} {atlikejas} prideti. ')
+    print(f'Albumas {atlikejas} {albumas} prideti. ')
 
-def isimti_albuma(atlikejas, pavadinimas):
-    for album in albumas:
-        if album['atlikejas'] == atlikejas and album['pavadinimas'] == pavadinimas:
-            albumas.remove(album)
-            print(f"Albumas {pavadinimas} {atlikejas} pasalintas. ")
+def isimti_albuma(atlikejas_param, albumas_param):
+    for a in albumas:
+        if a['atlikejas'] == atlikejas_param and a['albumas'] == albumas_param:
+            albumas.remove(a)
+            print(f"Albumas {atlikejas_param} - {albumas} pasalintas. ")
             return
-        print(f"Albumas {pavadinimas} {atlikejas} nerastas")
+    print(f"Albumas {atlikejas_param} {albumas_param} nerastas")
 
 def sarasas():
     print('Albumai kolekcijoje: ')
     for list, album in enumerate(albumas, start=1):
-        print(f'{list} {album['pavadinimas']}{album['atlikejas']}')
+        print(f"{list} {album['atlikejas']} {album['albumas']}")
 
 def main():
     while True:
         print('''
               ---Pasirink ka nori daryti---
               0 = Iseiti.
-              1 == Prideti.
-              2 = Istrinti.
+              1 = Prideti diska i kolekcija.
+              2 = Istrinti diska is kolekcijos.
               3 = Atspausdinti albumus.
               ''')
-        pasirinkimas =input(" Jusu pasirinkimas: ")
+        pasirinkimas = input(" Jusu pasirinkimas: ")
         if pasirinkimas == "0":
             break
         elif pasirinkimas == "1":
             atlikejas = input("Atlikejas: ")
-            pavadinimas = input("Pavadinimas: ")
-            prideti_albuma(atlikejas, pavadinimas)
+            albumas_pavadinimas = input("Albumo pavadinimas: ")
+            prideti_albuma(atlikejas, albumas_pavadinimas)
         elif pasirinkimas == "2":
             atlikejas = input("Atlikejas: ")
-            pavadinimas = input("Pavadinimas: ")
-            isimti_albuma(atlikejas, pavadinimas)
+            albumas_pavadinimas = input("Albumo pavadinimas: ")
+            isimti_albuma(atlikejas, albumas_pavadinimas)
         elif pasirinkimas == "3":
             sarasas()
         else:
-            print("Blogas pasirinkimas")
+            print("Neteisingas pasirinkimas")
 
 main()
