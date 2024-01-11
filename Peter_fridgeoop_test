@@ -1,0 +1,78 @@
+class Product:
+    def __init__(self, name:str, quantity:float, **kwargs) -> None:
+        self.name = name
+        self.quantity = quantity
+        self.unit_of_measurement = 'vnt' # options: kg, g, L, ml
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+    def __str__(self) -> str:
+        return f"{self.name}: {self.quantity}"
+    
+    def __repr__(self) -> str:
+        return f"({self.name}, {self.quantity})"
+
+
+class Recipe:
+    def __init__(self):
+        self.ingredients = []
+        self.instructions = []
+
+    def add_ingredient(self, product:Product):
+        self.ingredients.append(product)
+
+    def change_ingredient_quantity(self, ingredient_id:int, new_quantity:float):
+        self.ingredients[ingredient_id].quantity = new_quantity
+
+    def remove_ingredient(self, ingredient_id:int):
+        self.ingredients.pop(ingredient_id)
+
+
+class Fridge:
+    contents = []
+
+    def check_product(self, name:str) -> (int, Product):
+        for product_id, product in enumerate(self.contents):
+            if product.name == name:
+                return product_id, name
+        return None, None
+    
+    def check_product_quantity(self, product:Product, quantity:float):
+        return product.quantity - quantity
+
+    def add_product(self, name:str, quantity:float):
+        _product_id, product = self.check_product(name) # nenaudojamus kintamuosius galima vadinti tiesiog _
+        if product is not None:
+            product.quantity += quantity
+        else:
+            self.contents.append(Product(name, quantity))
+
+    def remove_product(self, name:str, quantity:float):
+        product_id, product = self.check_product(name)
+        if product is not None:
+            if product.quantity >= quantity:
+                product.quantity -= quantity
+                if product.quantity == 0:
+                    self.contents.remove(product)
+            else:
+                print(f"Neužtenka produkto {name} šaldytuve.")
+        else:
+            print(f"Produkto{name} does not exist in the fridge.")
+
+    def print_contents(self):
+            print('Šaldytuve esantys produktai:')
+            for index, product in enumerate(self.contents, start=1):
+                print(f'{index}. {product}')
+
+    def check_recipe(self, recipe: Recipe) -> bool:
+        for ingredient in recipe.ingredients:
+            _, fridge_product = self.check_product(ingredient.name)
+            if fridge_product is None or fridge_product.quantity < ingredient.quantity:
+                return False
+        return True
+    
+kiausiniai = Product('Kiausiniai', 6)
+pienas = Product('Pienas', 2, unit_of_measurement = 'l')
+print(kiausiniai.name, kiausiniai.quantity)
+print(pienas.name, pienas.quantity, pienas.unit_of_measurement)
+pienas.print_contents()

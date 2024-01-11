@@ -44,3 +44,4 @@ def main():
             print("Neteisingas pasirinkimas")
 
 main()
+
