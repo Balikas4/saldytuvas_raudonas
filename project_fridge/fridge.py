@@ -1,3 +1,6 @@
+from product import Product
+from recipe import Recipe
+
 class Fridge:
     contents = []
 

@@ -1,3 +1,4 @@
+from product import Product
 class Recipe:
     ingredients = []
     instructions = []
