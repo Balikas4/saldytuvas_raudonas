@@ -24,20 +24,20 @@ class Recipe:
             print(f"Produktas {existing_product.name} jau yra recepte, todėl reikalingas kiekis padidintas {product.quantity}.")
         else:
             self.ingredients.append(Product(product.name, product.quantity, product.unit_of_measurement))
-            print(f"{product.name}{product.quantity}{product.unit_of_measurement} buvo pridėtas į receptą.")
+            print(f"{product.name} {product.quantity} {product.unit_of_measurement} buvo pridėtas į receptą.")
 
     def change_ingredient_quantity(self, name:str, quantity:float):
         product_id, ingredient = self.check_ingredient(name)
         if ingredient is not None:
             ingredient.name = name
             ingredient.quantity = quantity
-            print(f"Produkto{name} kiekis: {quantity} {ingredient.unit_of_measurement}buvo pridėtas į receptą.")
+            print(f"Produkto {name} kiekis: {quantity} {ingredient.unit_of_measurement} buvo pridėtas į receptą.")
         else:
-            print("Recepte tokio produkto nėra")
+            print("Recepte tokio produkto nėra.")
 
     def check_ingredient(self, ingredient_name:str) -> (int, Product):
         for ingredient_id, ingredient in enumerate(self.ingredients):
-            if ingredient_name.lower() == ingredient_name.lower():
+            if ingredient_name.lower() == ingredient.name.lower():
                 return ingredient_id, ingredient
         return None, None
     
@@ -47,12 +47,12 @@ class Recipe:
         if ingredient is not None:
             if ingredient.quantity >= quantity:
                 ingredient.quantity -= quantity
-                print(f"{quantity} produkto {ingredient} buvo ištrinti iš recepto")
+                print(f"{quantity} produkto {ingredient} buvo ištrinti iš recepto.")
                 if ingredient.quantity == 0:
                     self.ingredients.remove(ingredient)
-                    print(f"Visas {ingredient} buvo pašalintas iš recepto")
+                    print(f"Visas {ingredient} buvo pašalintas iš recepto.")
             else:
-                print(f"Nurodytas {name} kiekis kurį norite pašalinti iš recepto per didelis")
+                print(f"Nurodytas {name} kiekis kurį norite pašalinti iš recepto per didelis.")
         else:
             print(f"Produkto {name} recepte nėra.")
 
@@ -89,10 +89,10 @@ class Fridge:
         if product is not None:
             if product.quantity >= quantity:
                 product.quantity -= quantity
-                print(f"Produkto {product} kiekis {quantity}  buvo pašalintas iš šaldytuvo")
+                print(f"Produkto {product} kiekis {quantity}  buvo pašalintas iš šaldytuvo.")
                 if product.quantity == 0:
                     self.contents.remove(product)
-                    print(f"Produkto {product} šaldytuve neliko")
+                    print(f"Produkto {product} šaldytuve neliko.")
             else:
                 print(f"Produkto {name} šaldytuve yra per mažai.")
         else:
@@ -112,7 +112,7 @@ class Fridge:
                     return False
                 quantity_difference = self.check_product_quantity(fridge_product, ingredient.quantity)
                 if quantity_difference < 0:
-                    print(f"Trūksta {abs(quantity_difference)} produkto {fridge_product.name} pagaminti receptui")
+                    print(f"Trūksta {abs(quantity_difference)} produkto {fridge_product.name} pagaminti receptui.")
                     print("Recepto pagaminti negalima.")
                     return False
             print("Galite gaminti pagal pateiktą receptą!")
@@ -155,9 +155,9 @@ def main():
                 input_name = input("Įveskite produkto pavadinimą: ")
                 index, product = fridge.check_product(input_name)
                 if index == None:
-                    print(f"Produkto {input_name} šaldytuve nėra")
+                    print(f"Produkto {input_name} šaldytuve nėra.")
                 else:
-                    print(f"{product} numeris šaldytuve:{index+1}")
+                    print(f"{product} numeris šaldytuve:{index+1}.")
             elif choice == "4":
                     fridge.print_contents()
             elif choice =='5':

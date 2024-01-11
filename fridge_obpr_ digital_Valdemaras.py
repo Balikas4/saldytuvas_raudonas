@@ -49,14 +49,14 @@ class Recipe:
 
     def print_recipe(self):
         for index, ingredient in enumerate(self.ingredients, start=1):
-            print(f"{index}, {ingredient} {ingredient.unit_of_measurement}")
+            print(f"{index}. {ingredient} {ingredient.unit_of_measurement}")
 
     def change_ingredient_quantity(self, name:str, quantity:float):
         product_id, ingredient = self.check_ingredient(name)
         if ingredient is not None:
             ingredient.name = name
             ingredient.quantity = quantity
-            print(f"{name} x {quantity} {ingredient.unit_of_measurement}was added to recipe")
+            print(f"{name} x {quantity} {ingredient.unit_of_measurement} was added to recipe")
         else:
             print("Product does not exist in recipe")
         
@@ -154,9 +154,9 @@ def main():
             input_name = input("Which product would you like to check: ")
             index, product = fridge.check_product(input_name)
             if index == None:
-                print(f"{input_name} was not found in the fridge")
+                print(f"{input_name} was not found in the fridge. ")
             else:
-                print(f"{product} is item number:{index+1} in the fridge")
+                print(f"{product} is item number:{index+1} in the fridge. ")
 
         elif choice.startswith('3'):
             input_name = input("Choose which product you would like to remove from the fridge: ")
@@ -171,7 +171,7 @@ def main():
             input_recipe_name = input("Which recipe would you like to add: ")
             input_recipe_quantity = float(input("Input recipe quantity: "))
             input_unit_of_measurement = input("Input unit of measurment: ")
-            input_product = Product(input_recipe_name, input_recipe_quantity)
+            input_product = Product(input_recipe_name, input_recipe_quantity, input_unit_of_measurement)
             recipe.add_ingredient(input_product)
         
         elif choice.startswith('6'):

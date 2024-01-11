@@ -13,15 +13,18 @@ def choose_album(album_list):
             return album_list[choice - 1]["Albumas"]
         else:
             print("Neteisingas albumo numeris. Bandykite dar kartą.")
-            return None
+            return album_list
     except ValueError:
         print("Neteisingas pasirinkimas. Bandykite dar kartą.")
-        return None
+        return album_list
 
 def create_album():
     artist = input("Įveskite atlikėją: ")
     album_name = input("Įveskite albumo pavadinimą: ")
-    return {"Atlikėjas": artist, "Albumas": album_name, "Albumo dainos": {}}
+    if artist and album_name:
+        return {"Atlikėjas": artist, "Albumas": album_name, "Albumo dainos": {}}
+    else:
+            print("Atlikėjo ir albumo pavadinimas negali būti tušti. Bandykite dar kartą.")
 
 def add_track(album_list):
     if not album_list:
@@ -134,6 +137,8 @@ def view_album(album_list):
             total_duration = sum(track['trukmė'] for track in album['Albumo dainos'].values())
             print(f"Trukmė viso: {formatted_duration(total_duration)}")
             break
+        else:
+            print(f"Albumas {album_name} nerastas!")
 
 def view_tracks(album_list):
     if not album_list:
@@ -150,7 +155,8 @@ def view_tracks(album_list):
                 print(f"{track_number}. {track['Dainos pavadinimas']} ({formatted_duration(track['trukmė'])})")
             break
     else:
-        print(f"Albumas {album_name} nerastas!")  # Pridėkite šią eilutę
+        print(f"Albumas {album_name} nerastas!")  
+
     return album_list
 
 def main_menu():
