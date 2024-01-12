@@ -151,12 +151,18 @@ exit - Exit
             input_unit_of_measurement = input("Input unit of measurment: ")
             fridge.add_product(input_name, input_quantity, input_unit_of_measurement)
         elif choice.startswith("remove"):
-            input_name = input("Input name: ")
-            input_quantity = float(input("Input quantity: "))
-            fridge.remove_product(input_name, input_quantity)
+            if len(fridge.contents) == 0:
+                print("Fridge is empty...")
+            else:
+                input_name = input("Input name: ")
+                input_quantity = float(input("Input quantity: "))
+                fridge.remove_product(input_name, input_quantity)
         elif choice.startswith("print"):
-            print("Current contents of the fridge:")
-            fridge.print_contents()
+            if len(fridge.contents) == 0:
+                print("Fridge is empty...")
+            else:
+                print("Current contents of the fridge:")
+                fridge.print_contents()
         elif choice.startswith("recipe add"):
             input_recipe_name = input("Input product name: ")
             input_recipe_quantity = float(input("Input product quantity: "))
@@ -168,14 +174,23 @@ exit - Exit
             input_ingridient_quantity = float(input("Input new product quantity: "))
             recipe.change_ingredient_quantity(input_ingridient_name, input_ingridient_quantity)
         elif choice.startswith("recipe remove"):
-            input_ingridient_name = input("Input product name: ")
-            input_ingridient_quantity = float(input("Input product quantity: "))
-            recipe.remove_ingredient(input_ingridient_name, input_ingridient_quantity)
+            if len(recipe.ingredients) == 0:
+                print("Recipe is empty...")
+            else:
+                input_ingridient_name = input("Input product name: ")
+                input_ingridient_quantity = float(input("Input product quantity: "))
+                recipe.remove_ingredient(input_ingridient_name, input_ingridient_quantity)
         elif choice.startswith("recipe print"):
-            print("Contents of the recipe:")
-            recipe.print_recipe()
+            if len(recipe.ingredients) == 0:
+                print("Recipe is empty...")
+            else:
+                print("Contents of the recipe:")
+                recipe.print_recipe()
         elif choice.startswith("recipe check"):
-            fridge.check_recipe(recipe)
+            if len(recipe.ingredients) ==0:
+                print("Fridge is empty...")
+            else:
+                fridge.check_recipe(recipe)
         else:
             print("Bad choice, try again")
 
